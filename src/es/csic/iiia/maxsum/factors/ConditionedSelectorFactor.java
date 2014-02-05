@@ -77,6 +77,15 @@ public class ConditionedSelectorFactor<T> extends AbstractFactor<T> {
         this.conditionNeighbor = condition;
     }
 
+    /**
+     * Get the neighbor that represents the conditional variable.
+     *
+     * @return condition conditional variable.
+     */
+    public T getConditionNeighbor() {
+        return conditionNeighbor;
+    }
+
     @Override
     protected double eval(Map<T, Boolean> values) {
         int nActive = 0;

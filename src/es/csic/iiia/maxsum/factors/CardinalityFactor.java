@@ -62,13 +62,23 @@ public class CardinalityFactor<T> extends AbstractFactor<T> {
     private long constraintChecks;
 
     /**
-     * Set the workload function f that returns the cost depending on the
+     * Set the cardinality function f that returns the cost depending on the
      * number of active variables.
      *
      * @param f function to use
      */
     public void setFunction(CardinalityFunction f) {
         function = f;
+    }
+
+    /**
+     * Get the cardinality function f that returns the cost depending on the
+     * number of active variables.
+     *
+     * @return cardinality function in use
+     */
+    public CardinalityFunction getFunction() {
+        return function;
     }
 
     @Override
@@ -175,9 +185,7 @@ public class CardinalityFactor<T> extends AbstractFactor<T> {
 
             final T f = vals_and_indices.get(pos).factor;
             LOG.log(Level.FINE, "Msg1: {0}, Msg0:{1}", new Object[]{msg1, msg0});
-            final double msg = msg1 - msg0;
-            // NaN's may appear if we receive infinity values.
-            send(Double.isNaN(msg) ? 0 : msg, f);
+            send(msg1 - msg0, f);
         }
         constraintChecks += size*3;
 

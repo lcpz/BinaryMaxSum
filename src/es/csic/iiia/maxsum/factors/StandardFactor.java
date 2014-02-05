@@ -36,6 +36,7 @@
  */
 package es.csic.iiia.maxsum.factors;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,15 @@ public class StandardFactor<T> extends AbstractFactor<T> {
     }
 
     /**
+     * Get the tabular potential of this factor.
+     *
+     * @return tabular potential of this factor.
+     */
+    protected TabularPotential getTabularPotential() {
+        return potential;
+    }
+
+    /**
      * Set the potential of this factor.
      *
      * @see StandardFactor
@@ -120,8 +130,7 @@ public class StandardFactor<T> extends AbstractFactor<T> {
         for (T neighbor : getNeighbors()) {
             final double m_0 = computeMu(neighbor, false, neighbors, messages);
             final double m_1 = computeMu(neighbor, true, neighbors, messages);
-            final double message = m_1 - m_0;
-            send(message, neighbor);
+            send(m_1 - m_0, neighbor);
         }
 
         return nNeighbors*nNeighbors;
@@ -175,8 +184,8 @@ public class StandardFactor<T> extends AbstractFactor<T> {
      * You must ensure that there are exactly <pre>2^len(neighbors)</pre> costs/utilities in the
      * values array.
      */
-    private class TabularPotential {
-        private double[] values;
+    protected class TabularPotential {
+        public final double[] values;
 
         public TabularPotential(double[] values) {
             this.values = values;

@@ -144,7 +144,8 @@ public abstract class AbstractFactor<T> implements Factor<T> {
     @Override
     public void receive(double message, T sender) {
         if (!neighbors.contains(sender)) {
-            throw new RuntimeException("I (" + getClass().getName() + ", " + getIdentity() + ") received a message from the non-neighbor sender " + sender);
+            throw new RuntimeException("I (" + getClass().getName() + ", " + getIdentity()
+                    + ") received message " + message + " from the non-neighbor sender " + sender);
         }
 
         messages.put(sender, message);
